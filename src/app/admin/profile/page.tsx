@@ -150,7 +150,7 @@ export default function AdminProfilePage() {
           <h1 className="text-2xl font-bold text-text-main">Profile & Skills</h1>
           <p className="text-sm text-text-muted mt-1">Manage your personal identity, bio, categorized skills, and education</p>
         </div>
-        <button onClick={handleSubmit} disabled={saving} className="flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition disabled:opacity-50 cursor-pointer">
+        <button onClick={handleSubmit} disabled={saving} className="flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-hover text-primary-text font-medium rounded-lg transition disabled:opacity-50 cursor-pointer">
           {saving ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />

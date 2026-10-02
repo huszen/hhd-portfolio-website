@@ -88,7 +88,7 @@ export default function AdminLoginPage() {
             </div>
           </div>
 
-          <button type="submit" disabled={loading} className="w-full py-2.5 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition disabled:opacity-50 cursor-pointer">
+          <button type="submit" disabled={loading} className="w-full py-2.5 bg-primary hover:bg-primary-hover text-primary-text font-medium rounded-lg transition disabled:opacity-50 cursor-pointer">
             {loading ? 'Processing...' : 'Sign In to Dashboard'}
           </button>
         </form>

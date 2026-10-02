@@ -92,7 +92,7 @@ export default function AdminCertificatesPage() {
           <p className="text-sm text-text-muted mt-1">Manage your professional certifications and achievements</p>
         </div>
         {!showForm && (
-          <button onClick={() => setShowForm(true)} className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition text-sm cursor-pointer">
+          <button onClick={() => setShowForm(true)} className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover text-primary-text font-medium rounded-lg transition text-sm cursor-pointer">
             <Plus className="w-4 h-4" />
             <span>Add Certificate</span>
           </button>
@@ -182,7 +182,7 @@ export default function AdminCertificatesPage() {
             <button
               type="submit"
               disabled={saving || !formData.bannerUrl}
-              className="flex items-center gap-2 px-5 py-2 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition disabled:opacity-50 text-sm cursor-pointer"
+              className="flex items-center gap-2 px-5 py-2 bg-primary hover:bg-primary-hover text-primary-text font-medium rounded-lg transition disabled:opacity-50 text-sm cursor-pointer"
             >
               {saving ? (
                 <>

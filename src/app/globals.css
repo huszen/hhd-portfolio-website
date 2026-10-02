@@ -10,6 +10,9 @@
 @theme {
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
+
+  --color-primary-text: var(--primary-text);
+
   --color-bg-main: var(--bg-main);
   --color-bg-card: var(--bg-card);
   --color-border-main: var(--border-main);
@@ -31,13 +34,14 @@
  * as long as they use the theme variables defined above.
  */
 :root {
-  --bg-main: #f8fafc; /* Cool Light Gray */
-  --bg-card: #ffffff; /* Pure White */
-  --primary: #0f172a; /* Deep Slate/Black */
-  --primary-hover: #334155; /* Slate Hover */
-  --border-main: #e2e8f0; /* Light Gray Border */
-  --text-main: #0f172a; /* Dark Slate Text */
-  --text-muted: #64748b; /* Muted Slate Text */
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --primary: #0f172a; /* Tombol Gelap */
+  --primary-hover: #334155;
+  --primary-text: #ffffff; /* 👈 Teks Tombol Putih */
+  --border-main: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
 }
 
 /*
@@ -48,13 +52,14 @@
  */
 [data-theme='dark'],
 .dark {
-  --bg-main: #14100c;
-  --bg-card: #1f1a14;
-  --primary: #d4a373;
-  --primary-hover: #faedcd;
-  --border-main: #332920;
-  --text-main: #f3efe6;
-  --text-muted: #a39585;
+  --bg-main: #111111;
+  --bg-card: #1a1a1a;
+  --primary: #f5f5f5; /* Tombol Terang */
+  --primary-hover: #d4d4d4;
+  --primary-text: #111111; /* 👈 Teks Tombol Gelap (Hitam) */
+  --border-main: #2a2a2a;
+  --text-main: #f5f5f5;
+  --text-muted: #a3a3a3;
 }
 
 /*

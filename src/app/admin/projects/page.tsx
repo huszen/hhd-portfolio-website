@@ -171,7 +171,7 @@ export default function AdminProjectsPage() {
           <h1 className="text-2xl font-bold text-text-main">Projects Management</h1>
           <p className="text-text-muted text-sm">Manage your project portfolio and works.</p>
         </div>
-        <button onClick={() => handleOpenModal()} className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-medium transition text-sm cursor-pointer">
+        <button onClick={() => handleOpenModal()} className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-primary-text px-4 py-2 rounded-lg font-medium transition text-sm cursor-pointer">
           <Plus className="w-4 h-4" />
           Add Project
         </button>
@@ -366,7 +366,7 @@ export default function AdminProjectsPage() {
                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 bg-bg-main hover:bg-border-main/50 text-text-muted hover:text-text-main rounded-lg text-sm font-medium transition cursor-pointer">
                   Cancel
                 </button>
-                <button type="submit" disabled={isSubmitting} className="px-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg text-sm font-medium transition disabled:opacity-50 cursor-pointer">
+                <button type="submit" disabled={isSubmitting} className="px-4 py-2 bg-primary hover:bg-primary-hover text-primary-text rounded-lg text-sm font-medium transition disabled:opacity-50 cursor-pointer">
                   {isSubmitting ? 'Saving...' : editingId ? 'Update Project' : 'Save Project'}
                 </button>
               </div>
