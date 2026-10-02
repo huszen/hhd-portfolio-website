@@ -94,32 +94,53 @@ export default function ProjectModal({ isOpen, editingProject, onClose, onSubmit
     e.preventDefault();
     setIsSubmitting(true);
 
-    const projectData: Omit<Project, 'id'> = {
+    // 1. Identify images removed during editing and delete from Cloudinary CDN
+    if (editingProject) {
+      const oldImages: string[] = [];
+      if (editingProject.bannerUrl) oldImages.push(editingProject.bannerUrl);
+      if (Array.isArray(editingProject.previewImages)) oldImages.push(...editingProject.previewImages);
+
+      const newImages: string[] = [];
+      if (bannerUrl.trim()) newImages.push(bannerUrl.trim());
+      if (Array.isArray(previewImages)) newImages.push(...previewImages);
+
+      // Find any image present in old project but absent in current state
+      const removedImages = oldImages.filter((url) => !newImages.includes(url));
+
+      if (removedImages.length > 0) {
+        await Promise.all(
+          removedImages.map((url) =>
+            fetch('/api/cloudinary/delete', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ url }),
+            }).catch((err) => console.error('Failed to cleanup removed image:', url, err)),
+          ),
+        );
+      }
+    }
+
+    // 2. Prepare payload for Firestore
+    // IMPORTANT: Set empty fields to null / [] so Firestore actually overwrites & removes them!
+    const projectData: Record<string, any> = {
       title,
       slug,
       shortDescription,
-      bannerUrl: bannerUrl.trim() || undefined,
-      previewImages: previewImages.length > 0 ? previewImages : undefined,
+      bannerUrl: bannerUrl.trim() ? bannerUrl.trim() : null,
+      previewImages: previewImages.length > 0 ? previewImages : [],
       techStack,
-      githubUrl: githubUrl.trim() || undefined,
-      demoUrl: demoUrl.trim() || undefined,
+      githubUrl: githubUrl.trim() ? githubUrl.trim() : null,
+      demoUrl: demoUrl.trim() ? demoUrl.trim() : null,
       content,
       createdAt: editingProject?.createdAt || new Date().toISOString(),
     };
 
-    // Remove keys with undefined values
-    Object.keys(projectData).forEach((key) => {
-      const k = key as keyof typeof projectData;
-      if (projectData[k] === undefined) {
-        delete projectData[k];
-      }
-    });
-
+    // 3. Save to Firestore
     let success = false;
     if (editingProject?.id) {
       success = await updateProjectFn(editingProject.id, projectData);
     } else {
-      const resId = await addProjectFn(projectData);
+      const resId = await addProjectFn(projectData as Omit<Project, 'id'>);
       success = !!resId;
     }
 

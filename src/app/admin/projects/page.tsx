@@ -36,13 +36,44 @@ export default function AdminProjectsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this project?')) {
-      const success = await deleteProject(id);
-      if (success) {
-        fetchProjects();
-      } else {
-        alert('Failed to delete project.');
+    if (!confirm('Are you sure you want to delete this project?')) return;
+
+    // 1. Find project details to extract image URLs
+    const projectToDelete = projects.find((p) => p.id === id);
+
+    if (projectToDelete) {
+      const imagesToDelete: string[] = [];
+
+      // Extract main banner image
+      if (projectToDelete.bannerUrl) {
+        imagesToDelete.push(projectToDelete.bannerUrl);
       }
+
+      // Extract array of preview screenshots/mockups
+      if (Array.isArray(projectToDelete.previewImages) && projectToDelete.previewImages.length > 0) {
+        imagesToDelete.push(...projectToDelete.previewImages);
+      }
+
+      // 2. Delete all associated images from Cloudinary CDN concurrently
+      if (imagesToDelete.length > 0) {
+        await Promise.all(
+          imagesToDelete.map((url) =>
+            fetch('/api/cloudinary/delete', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ url }),
+            }).catch((err) => console.error('Failed to cleanup Cloudinary image:', url, err)),
+          ),
+        );
+      }
+    }
+
+    // 3. Delete document from Firestore
+    const success = await deleteProject(id);
+    if (success) {
+      fetchProjects();
+    } else {
+      alert('Failed to delete project.');
     }
   };
 
