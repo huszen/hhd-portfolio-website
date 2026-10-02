@@ -1,0 +1,111 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+
+/*
+ * 1. Register global Tailwind color and font tokens
+ *
+ * These variables allow the custom theme values below to be used
+ * directly as Tailwind utility classes throughout the application.
+ */
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-bg-main: var(--bg-main);
+  --color-bg-card: var(--bg-card);
+  --color-border-main: var(--border-main);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/*
+ * 2. Global Color Configuration
+ *
+ * IMPORTANT:
+ * Change the colors in this :root section to update the
+ * entire application's color scheme globally.
+ *
+ * You do NOT need to change individual components manually
+ * as long as they use the theme variables defined above.
+ */
+:root {
+  --bg-main: #f8fafc; /* Cool Light Gray */
+  --bg-card: #ffffff; /* Pure White */
+  --primary: #0f172a; /* Deep Slate/Black */
+  --primary-hover: #334155; /* Slate Hover */
+  --border-main: #e2e8f0; /* Light Gray Border */
+  --text-main: #0f172a; /* Dark Slate Text */
+  --text-muted: #64748b; /* Muted Slate Text */
+}
+
+/*
+ * Dark Theme (Optional)
+ *
+ * These values override the :root colors when the dark theme
+ * is enabled using either [data-theme='dark'] or the .dark class.
+ */
+[data-theme='dark'],
+.dark {
+  --bg-main: #14100c;
+  --bg-card: #1f1a14;
+  --primary: #d4a373;
+  --primary-hover: #faedcd;
+  --border-main: #332920;
+  --text-main: #f3efe6;
+  --text-muted: #a39585;
+}
+
+/*
+ * 3. Base Styles & Enhancements
+ */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*
+ * Smooth transitions when switching between themes
+ */
+body,
+button,
+input,
+textarea {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/*
+ * Text selection highlight
+ */
+::selection {
+  background-color: var(--primary);
+  color: var(--bg-card);
+}
+
+/*
+ * Custom Scrollbar Styling
+ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-main);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
