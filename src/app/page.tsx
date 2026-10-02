@@ -1,46 +1,85 @@
-import Image from 'next/image';
+import { doc, collection, getDoc, getDocs, orderBy, query } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { Profile, Project, Certificate } from '@/types/portfolio';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import HeroSection from '@/components/home/HeroSection';
+import AboutSection from '@/components/home/AboutSection';
+import SkillsSection from '@/components/home/SkillsSection';
+import ProjectsSection from '@/components/home/ProjectSection';
+import CertificatesSection from '@/components/home/CertificatesSection';
 
-export default function Home() {
+// Fetch profile data from firestore
+async function getProfileData(): Promise<Profile | null> {
+  try {
+    const profileDocRef = doc(db, 'profile', 'main');
+    const profileSnap = await getDoc(profileDocRef);
+
+    if (profileSnap.exists()) {
+      return profileSnap.data() as Profile;
+    }
+    return null;
+  } catch (error) {
+    console.error('Error fetching profile data:', error);
+    return null;
+  }
+}
+
+// Fetch projects list sorted by creation date
+async function getProjectsData(): Promise<Project[]> {
+  try {
+    const projectsRef = collection(db, 'projects');
+    const q = query(projectsRef, orderBy('createdAt'));
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.docs.map((docSnap) => ({
+      id: docSnap.id,
+      ...docSnap.data(),
+    })) as Project[];
+  } catch (error) {
+    console.error('Error fetching projects data:', error);
+    return [];
+  }
+}
+
+// Fetch certificates list sorted by creation date
+async function getCertificatesData(): Promise<Certificate[]> {
+  try {
+    const certsRef = collection(db, 'certificates');
+    const q = query(certsRef, orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.docs.map((docSnap) => ({
+      id: docSnap.id,
+      ...docSnap.data(),
+    })) as Certificate[];
+  } catch (error) {
+    console.error('Error Fetching Certificates Data:', error);
+    return [];
+  }
+}
+
+// Main Public Homepage Component
+export default async function Homepage() {
+  // Fetch data in parallel for optimal loading performance
+  const [profile, projects, certificates] = await Promise.all([getProfileData(), getProjectsData(), getCertificatesData()]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-bg-main font-sans min-h-screen">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-bg-card border border-border-main rounded-2xl sm:items-start my-8">
-        <Image className="h-5 w-[100px] invert white:invert-0" src="/next.svg" alt="Next.js logo" width={100} height={20} priority />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-text-main">
-            To get started, edit the <code className="rounded bg-bg-main px-1.5 py-0.5 font-mono text-[0.9em] border border-border-main text-primary">page.tsx</code> file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-text-muted">
-            Looking for a starting point or more instructions? Head over to{' '}
-            <a href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app" className="font-medium text-primary hover:underline">
-              Templates
-            </a>{' '}
-            or the{' '}
-            <a href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app" className="font-medium text-primary hover:underline">
-              Learning
-            </a>{' '}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary text-primary-text transition-colors hover:bg-primary-hover md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image className="h-[14px] w-4 invert" src="/vercel.svg" alt="Vercel logomark" width={16} height={14} />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-border-main bg-bg-main text-text-main transition-colors hover:bg-border-main/50 md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="min-h-screen bg-bg-main text-text-main flex flex-col font-sans selection:bg-primary selection:text-bg-card">
+      {/* Sticky Navigation Bar */}
+      <Navbar fullName={profile?.fullName} resumeUrl={profile?.resumeUrl} />
+
+      {/* Main Content Sections Container */}
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-12 pb-20">
+        <HeroSection profile={profile} />
+        <AboutSection profile={profile} />
+        <SkillsSection skills={profile?.skills} />
+        <ProjectsSection projects={projects} />
+        <CertificatesSection certificates={certificates} />
       </main>
+
+      {/* Layout Footer */}
+      <Footer fullName={profile?.fullName} socialLinks={profile?.socialLinks} />
     </div>
   );
 }
