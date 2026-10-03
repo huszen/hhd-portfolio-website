@@ -15,7 +15,7 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
 
   return (
     <section id="certificates" className="py-16 border-t border-border-main">
-      <div className="max-w-6xl mx-auto space-y-8">
+      <div className="max-w-6xl mx-auto space-y-8 ">
         {/* Section Header */}
         <div className="text-center space-y-2">
           <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full mb-1">
@@ -27,7 +27,7 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
         </div>
 
         {/* Certificates Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-wrap justify-center gap-6 mt-15">
           {certificates.map((cert) => (
             <CertificateCard key={cert.id || cert.title} certificate={cert} />
           ))}

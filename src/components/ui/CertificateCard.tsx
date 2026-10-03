@@ -11,11 +11,16 @@ interface CertificateCardProps {
 // Reusable card component to showcase professional certifications
 export default function CertificateCard({ certificate }: CertificateCardProps) {
   return (
-    <div className="group flex flex-col bg-bg-card border border-border-main rounded-2xl overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
+    <div className="group flex w-full max-w-sm flex-col bg-bg-card border border-border-main rounded-2xl overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
       {/* Banner / Certificate Preview */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-bg-main">
+      {/* Banner / Certificate Preview */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-bg-main">
         {certificate.bannerUrl ? (
-          <Image src={certificate.bannerUrl} alt={certificate.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+          <>
+            <Image src={certificate.bannerUrl} alt={certificate.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover object-top transition-transform duration-500 group-hover:scale-105" />
+            {/* Subtle bottom gradient mask to blend smoothly into the card body */}
+            <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-bg-card to-transparent pointer-events-none" />
+          </>
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-text-muted text-sm">
             <Award className="w-8 h-8 opacity-40" />

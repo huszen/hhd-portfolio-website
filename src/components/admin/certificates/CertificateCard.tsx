@@ -11,40 +11,48 @@ interface CertificateCardProps {
 
 export default function CertificateCard({ certificate, onDelete }: CertificateCardProps) {
   return (
-    <div className="bg-bg-card border border-border-main rounded-xl overflow-hidden flex flex-col justify-between group hover:border-border-main/80 transition">
-      <div className="p-5 space-y-4">
-        <div className="relative w-full h-48 rounded-lg overflow-hidden border border-border-main bg-bg-main">
-          <Image src={certificate.bannerUrl} alt={certificate.title} fill priority sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover" />
+    <div className="group bg-bg-card border border-border-main rounded-xl overflow-hidden flex flex-col justify-between hover:border-border-main/80 transition-all duration-200 shadow-sm hover:shadow-md">
+      <div>
+        {/* Banner Container with fixed aspect ratio */}
+        <div className="relative w-full aspect-[16/9] bg-white/5 border-b border-border-main/50 overflow-hidden">
+          <Image src={certificate.bannerUrl} alt={certificate.title} fill priority sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-contain p-2 group-hover:scale-105 transition-transform duration-300" />
+          {/* Top-right floating delete action */}
+          <button
+            onClick={() => certificate.id && onDelete(certificate.id)}
+            className="absolute top-2 right-2 p-1.5 rounded-lg bg-bg-main/80 text-text-muted hover:text-red-400 hover:bg-red-500/10 border border-border-main/40 transition-colors backdrop-blur-sm cursor-pointer"
+            title="Delete certificate"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
         </div>
 
-        <div className="space-y-2">
-          <h3 className="font-semibold text-text-main text-lg leading-snug">{certificate.title}</h3>
-          <div className="flex flex-wrap gap-y-1 gap-x-4 text-xs text-text-muted">
-            <span className="flex items-center gap-1">
-              <Building className="w-3.5 h-3.5 text-primary" />
-              {certificate.issuer}
+        {/* Info Section */}
+        <div className="p-4 space-y-3">
+          <h3 className="font-semibold text-text-main text-base leading-snug line-clamp-2">{certificate.title}</h3>
+
+          <div className="flex flex-col gap-1.5 text-xs text-text-muted">
+            <span className="flex items-center gap-1.5">
+              <Building className="w-3.5 h-3.5 text-primary shrink-0" />
+              <span className="truncate">{certificate.issuer}</span>
             </span>
-            <span className="flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5 text-text-muted" />
-              {certificate.issueDate}
+            <span className="flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-text-muted shrink-0" />
+              <span>{certificate.issueDate}</span>
             </span>
           </div>
         </div>
       </div>
 
-      <div className="px-5 py-3 bg-bg-main border-t border-border-main flex items-center justify-between text-xs">
+      {/* Footer / Actions */}
+      <div className="px-4 py-3 bg-bg-main/40 border-t border-border-main flex items-center justify-between text-xs">
         {certificate.credentialUrl ? (
-          <a href={certificate.credentialUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline flex items-center gap-1 font-medium">
+          <a href={certificate.credentialUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 flex items-center gap-1.5 font-medium transition-colors">
             <span>Verify Credential</span>
             <ExternalLink className="w-3 h-3" />
           </a>
         ) : (
-          <span className="text-text-muted">No URL provided</span>
+          <span className="text-text-muted/60 italic">No URL provided</span>
         )}
-
-        <button onClick={() => certificate.id && onDelete(certificate.id)} className="text-text-muted hover:text-red-500 p-1 transition cursor-pointer" title="Delete certificate">
-          <Trash2 className="w-4 h-4" />
-        </button>
       </div>
     </div>
   );
