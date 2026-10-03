@@ -14,12 +14,16 @@ interface ProjectCardProps {
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
     <div className="group flex flex-col bg-bg-card border border-border-main rounded-2xl overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
-      {/* Banner / Image Preview */}
-      <div className="relative aspect-video w-full overflow-hidden bg-bg-main">
+      {/* Banner / Image Preview / Fallback Banner */}
+      <div className="relative aspect-video w-full overflow-hidden bg-bg-main border-b border-border-main/50">
         {project.bannerUrl ? (
           <Image src={project.bannerUrl} alt={project.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-text-muted text-sm">No Preview Available</div>
+          /* Fallback view when no banner URL is provided */
+          <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-gradient-to-br from-bg-card via-bg-main to-bg-card text-center select-none">
+            <span className="text-2xl font-black tracking-wider text-text-main group-hover:text-primary transition-colors line-clamp-2 px-2">{project.title}</span>
+            <div className="mt-2 w-8 h-1 bg-primary/40 rounded-full group-hover:w-12 transition-all duration-300" />
+          </div>
         )}
       </div>
 

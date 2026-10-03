@@ -14,7 +14,7 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
   if (!certificates || certificates.length === 0) return null;
 
   return (
-    <section id="certificates" className="py-16 border-t border-border-main">
+    <section id="certificates" className="pt-8 py-16 border-t border-border-main">
       <div className="max-w-6xl mx-auto space-y-8 ">
         {/* Section Header */}
         <div className="text-center space-y-2">
@@ -29,7 +29,9 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
         {/* Certificates Grid */}
         <div className="flex flex-wrap justify-center gap-6 mt-15">
           {certificates.map((cert) => (
-            <CertificateCard key={cert.id || cert.title} certificate={cert} />
+            <div key={cert.id || cert.title} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
+              <CertificateCard certificate={cert} />
+            </div>
           ))}
         </div>
       </div>

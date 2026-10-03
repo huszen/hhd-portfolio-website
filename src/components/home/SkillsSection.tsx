@@ -14,7 +14,7 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
   if (!skills || Object.keys(skills).length === 0) return null;
 
   return (
-    <section id="skills" className="py-16 border-t border-border-main">
+    <section id="skills" className="pt-8 py-36 border-t border-border-main">
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Section Header */}
         <div className="text-center space-y-2">

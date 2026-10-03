@@ -11,7 +11,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
   if (!profile) return null;
 
   return (
-    <section id="about" className="py-16 border-t border-border-main">
+    <section id="about" className="pt-8 py-16 border-t border-border-main">
       <div className="max-w-4xl mx-auto space-y-12">
         {/* Section Header */}
         <div className="text-center space-y-2">

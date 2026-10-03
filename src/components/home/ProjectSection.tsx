@@ -14,7 +14,7 @@ export default function ProjectsSection({ projects }: ProjectSectionProps) {
   if (!projects || projects.length === 0) return null;
 
   return (
-    <section id="projects" className="py-16 border-t border-border-main">
+    <section id="projects" className="pt-8 py-30 border-t border-border-main">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Section Header */}
         <div className="text-center space-y-2">

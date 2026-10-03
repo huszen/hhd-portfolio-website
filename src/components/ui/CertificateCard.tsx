@@ -11,7 +11,7 @@ interface CertificateCardProps {
 // Reusable card component to showcase professional certifications
 export default function CertificateCard({ certificate }: CertificateCardProps) {
   return (
-    <div className="group flex w-full max-w-sm flex-col bg-bg-card border border-border-main rounded-2xl overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
+    <div className="group flex w-full flex-col bg-bg-card border border-border-main rounded-2xl overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
       {/* Banner / Certificate Preview */}
       {/* Banner / Certificate Preview */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-bg-main">
