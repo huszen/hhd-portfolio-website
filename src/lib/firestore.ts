@@ -1,6 +1,6 @@
 import { db } from './firebase';
 
-import { doc, getDoc, setDoc, collection, getDocs, addDoc, deleteDoc, query, orderBy, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, collection, getDocs, addDoc, deleteDoc, query, orderBy, updateDoc, where, limit } from 'firebase/firestore';
 
 import { Profile, Project, Certificate } from '@/types/portfolio';
 
@@ -84,6 +84,25 @@ export async function deleteProject(id: string): Promise<boolean> {
   } catch (error) {
     console.error('Error deleting project:', error);
     return false;
+  }
+}
+
+// Get the project by slug
+export async function getProjectBySlug(slug: string): Promise<Project | null> {
+  try {
+    const q = query(collection(db, 'projects'), where('slug', '==', slug), limit(1));
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return null;
+    }
+
+    const docSnap = querySnapshot.docs[0];
+    return { id: docSnap.id, ...docSnap.data() } as Project;
+  } catch (error) {
+    console.error('Error fetching project by slug:', error);
+    return null;
   }
 }
 

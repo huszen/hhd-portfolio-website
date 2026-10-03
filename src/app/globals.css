@@ -114,3 +114,12 @@ textarea {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
 }
+
+/* TipTap / Tailwind Typography colors */
+.prose {
+  --tw-prose-body: var(--text-main);
+  --tw-prose-headings: var(--text-main);
+  --tw-prose-bold: var(--text-main);
+  --tw-prose-code: var(--text-main);
+  --tw-prose-quotes: var(--text-main);
+}
