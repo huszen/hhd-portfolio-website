@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
+import { scrollToSection } from '@/lib/scroll';
 
 interface NavItem {
   label: string;
@@ -58,35 +59,20 @@ export default function Navbar({ fullName = 'Portfolio', resumeUrl }: NavbarProp
   }, []);
 
   //   Smooth scroll handler
-  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    setIsMobileMenuOpen(false);
-
-    if (href === '#') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    const targetId = href.replace('#', '');
-    const element = document.getElementById(targetId);
-
-    if (element) {
-      const navOffset = 80; // Accpimt for fixed navbar height
-      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-      const offsetPosition = elementPosition - navOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
-  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-bg-main/80 backdrop-blur-md border-b border-border-main transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand / Logo */}
-        <Link href="#" onClick={(e) => handleScrollTo(e, '#')} className="text-lg font-bold tracking-tight text-text-main hover:text-primary transition-colors">
+        <Link
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setIsMobileMenuOpen(false);
+            scrollToSection('#');
+          }}
+          className="text-lg font-bold tracking-tight text-text-main hover:text-primary transition-colors"
+        >
           HHD
         </Link>
 
@@ -101,7 +87,11 @@ export default function Navbar({ fullName = 'Portfolio', resumeUrl }: NavbarProp
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={(e) => handleScrollTo(e, item.href)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMobileMenuOpen(false);
+                    scrollToSection(item.href);
+                  }}
                   className={`text-sm font-medium transition-colors relative py-1 ${isActive ? 'text-text-main font-semibold' : 'text-text-muted hover:text-text-main'}`}
                 >
                   {item.label}
@@ -142,7 +132,11 @@ export default function Navbar({ fullName = 'Portfolio', resumeUrl }: NavbarProp
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={(e) => handleScrollTo(e, item.href)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMobileMenuOpen(false);
+                    scrollToSection(item.href);
+                  }}
                   className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive ? 'bg-bg-main text-text-main font-semibold' : 'text-text-muted hover:text-text-main hover:bg-bg-main'}`}
                 >
                   {item.label}

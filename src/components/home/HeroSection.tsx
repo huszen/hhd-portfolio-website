@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { ArrowDown, FileText, Cat, LinkIcon, Mail } from 'lucide-react';
 import { Profile } from '@/types/portfolio';
+import { scrollToSection } from '@/lib/scroll';
 
 interface HeroSectionProps {
   profile: Profile | null;
@@ -35,7 +36,14 @@ export default function HeroSection({ profile }: HeroSectionProps) {
             </a>
           )}
 
-          <a href="#projects" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-bg-card border border-border-main hover:border-primary/50 text-text-main font-semibold text-sm transition-all shadow-sm">
+          <a
+            href="#projects"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('#projects');
+            }}
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-bg-card border border-border-main hover:border-primary/50 text-text-main font-semibold text-sm transition-all shadow-sm"
+          >
             <span>View My Work</span>
             <ArrowDown className="w-4 h-4" />
           </a>
