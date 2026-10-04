@@ -2,7 +2,7 @@ import { db } from './firebase';
 
 import { doc, getDoc, setDoc, collection, getDocs, addDoc, deleteDoc, query, orderBy, updateDoc, where, limit } from 'firebase/firestore';
 
-import { Profile, Project, Certificate } from '@/types/portfolio';
+import { Profile, Project, Certificate, Experience } from '@/types/portfolio';
 
 // ==========================================
 // 1. PROFILE FUNCTIONS
@@ -141,6 +141,61 @@ export async function deleteCertificate(id: string): Promise<boolean> {
     return true;
   } catch (error) {
     console.error('Error deleting certificate:', error);
+    return false;
+  }
+}
+
+// ==========================================
+// 4. EXPERIENCE FUNTIONS
+// ==========================================
+
+// Fetch experiences data
+export async function getExperiences(): Promise<Experience[]> {
+  try {
+    const q = query(collection(db, 'experiences'), orderBy('createdAt', 'desc'));
+
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Experience);
+  } catch (error) {
+    console.error('Failed to fetch Experiences data:', error);
+    return [];
+  }
+}
+
+// Create new Experience
+export async function addExperience(expData: Omit<Experience, 'id'>): Promise<string | null> {
+  try {
+    const docRef = await addDoc(collection(db, 'experiences'), {
+      ...expData,
+      createdAt: expData.createdAt || new Date().toISOString(),
+    });
+    return docRef.id;
+  } catch (error) {
+    console.error('Error creating experience:', error);
+    return null;
+  }
+}
+
+// Update experience
+export async function updateExperience(id: string, expData: Partial<Experience>): Promise<boolean> {
+  try {
+    const docRef = doc(db, 'experiences', id);
+    await updateDoc(docRef, expData);
+    return true;
+  } catch (error) {
+    console.error('Error updating experience:', error);
+    return false;
+  }
+}
+
+// Delete experience
+export async function deleteExperience(id: string): Promise<boolean> {
+  try {
+    await deleteDoc(doc(db, 'experiences', id));
+    return true;
+  } catch (error) {
+    console.error('Error deleting experience:', error);
     return false;
   }
 }

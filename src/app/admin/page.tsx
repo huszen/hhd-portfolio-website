@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import { UserCheck, FolderKanban, Award, ArrowRight } from 'lucide-react';
+import { UserCheck, FolderKanban, Award, ArrowRight, Briefcase } from 'lucide-react';
 
 export default function AdminDashboardPage() {
   const { user } = useAuth();
@@ -13,6 +13,13 @@ export default function AdminDashboardPage() {
       desc: 'Manage personal bio, headline, profile avatar, education history, and technical skills.',
       href: '/admin/profile',
       icon: UserCheck,
+      color: 'bg-primary/10 text-primary border-primary/20',
+    },
+    {
+      title: 'Work Experience',
+      desc: 'Manage employment history, research positions, key achievements, and skills used.',
+      href: '/admin/experience',
+      icon: Briefcase,
       color: 'bg-primary/10 text-primary border-primary/20',
     },
     {
@@ -34,7 +41,7 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-text-main">Welcome Back 👋</h1>
+        <h1 className="text-2xl font-bold text-text-main">Welcome Back | ⸜(｡˃ ᵕ ˂ )⸝♡</h1>
         <p className="text-text-muted text-sm mt-1">
           Signed in as: <span className="text-primary font-medium">{user?.email}</span>
         </p>

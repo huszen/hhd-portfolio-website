@@ -20,7 +20,7 @@ export default function CertificatesSection({ certificates }: CertificatesSectio
         <div className="text-center space-y-2">
           <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full mb-1">
             <Award className="w-3.5 h-3.5" />
-            <span>Qualifications</span>
+            <span>CERTIFICATES</span>
           </div>
           <h2 className="text-2xl md:text-3xl font-bold text-text-main tracking-tight">Certifications & Licenses</h2>
           <p className="text-sm text-text-muted max-w-xl mx-auto">Verified accomplishments, course completions, and official certifications</p>

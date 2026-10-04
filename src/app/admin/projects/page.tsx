@@ -6,7 +6,7 @@ import { Project } from '@/types/portfolio';
 import { getProjects, addProject, updateProject, deleteProject } from '@/lib/firestore';
 import ProjectCard from '@/components/admin/projects/ProjectCard';
 import ProjectModal from '@/components/admin/projects/ProjectModal';
-import { Plus } from 'lucide-react';
+import { Plus, Loader2, FolderGit2 } from 'lucide-react';
 
 export default function AdminProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -78,24 +78,33 @@ export default function AdminProjectsPage() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+    <div className="space-y-6">
+      {/* Top Bar - Standardized Layout */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-main pb-4">
         <div>
-          <h1 className="text-2xl font-bold text-text-main">Projects Management</h1>
-          <p className="text-text-muted text-sm">Manage your project portfolio and works.</p>
+          <h1 className="text-2xl font-bold text-text-main flex items-center gap-2">Projects & Cases</h1>
+          <p className="text-sm text-text-muted mt-0.5">Manage your project portfolio, case studies, and featured web applications.</p>
         </div>
-        <button onClick={handleOpenAddModal} className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-primary-text px-4 py-2 rounded-lg font-medium transition text-sm cursor-pointer">
+        <button onClick={handleOpenAddModal} className="flex items-center gap-2 px-4 py-2.5 bg-primary text-primary-text rounded-lg text-sm font-semibold hover:opacity-90 transition shrink-0 self-start sm:self-auto cursor-pointer">
           <Plus className="w-4 h-4" />
           Add Project
         </button>
       </div>
 
-      {/* Grid Projects */}
+      {/* Grid Projects & States */}
       {isLoading ? (
-        <div className="text-center py-12 text-text-muted">Loading projects...</div>
+        <div className="flex items-center justify-center py-16 text-text-muted gap-2">
+          <Loader2 className="w-5 h-5 animate-spin text-primary" />
+          <span>Loading projects...</span>
+        </div>
       ) : projects.length === 0 ? (
-        <div className="bg-bg-card border border-border-main rounded-xl p-12 text-center text-text-muted">No projects added yet.</div>
+        <div className="text-center py-16 border border-dashed border-border-main rounded-xl space-y-3">
+          <FolderGit2 className="w-10 h-10 text-text-muted mx-auto opacity-50" />
+          <p className="text-text-muted text-sm">No projects added yet.</p>
+          <button onClick={handleOpenAddModal} className="text-xs text-primary hover:underline font-medium">
+            + Add your first project
+          </button>
+        </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (

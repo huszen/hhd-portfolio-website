@@ -1,6 +1,6 @@
 'use client';
 
-import { Code2 } from 'lucide-react';
+import { Code2, BrainCircuit } from 'lucide-react';
 import TechBadge from '../ui/TechBadge';
 
 interface SkillsSectionProps {
@@ -18,6 +18,10 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Section Header */}
         <div className="text-center space-y-2">
+          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full mb-1">
+            <BrainCircuit className="w-3.5 h-3.5" />
+            <span>Skills</span>
+          </div>
           <h2 className="text-2xl md:text-3xl font-bold text-text-main tracking-tight">Skills & Expertise</h2>
           <p className="text-sm text-text-muted">Technologies, tools, and technical domain proficiency</p>
         </div>

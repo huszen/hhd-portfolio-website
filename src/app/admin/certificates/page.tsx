@@ -13,6 +13,7 @@ export default function AdminCertificatesPage() {
   const [showForm, setShowForm] = useState(false);
 
   const fetchCertificates = async () => {
+    setLoading(true);
     try {
       const data = await getCertificates();
       setCertificates(data);
@@ -38,24 +39,16 @@ export default function AdminCertificatesPage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh] text-text-muted">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-5xl mx-auto space-y-8 pb-12">
-      {/* Header section */}
-      <div className="flex items-center justify-between">
+    <div className="space-y-6">
+      {/* Top Bar - Standardized Layout */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-main pb-4">
         <div>
-          <h1 className="text-2xl font-bold text-text-main">Certificates</h1>
-          <p className="text-sm text-text-muted mt-1">Manage your professional certifications and achievements</p>
+          <h1 className="text-2xl font-bold text-text-main flex items-center gap-2">Certificates</h1>
+          <p className="text-sm text-text-muted mt-0.5">Manage your professional certifications, credentials, and achievements.</p>
         </div>
         {!showForm && (
-          <button onClick={() => setShowForm(true)} className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover text-primary-text font-medium rounded-lg transition text-sm cursor-pointer">
+          <button onClick={() => setShowForm(true)} className="flex items-center gap-2 px-4 py-2.5 bg-primary text-primary-text rounded-lg text-sm font-semibold hover:opacity-90 transition shrink-0 self-start sm:self-auto cursor-pointer">
             <Plus className="w-4 h-4" />
             <span>Add Certificate</span>
           </button>
@@ -65,17 +58,27 @@ export default function AdminCertificatesPage() {
       {/* Modal / Create Form */}
       {showForm && <CertificateFormModal onClose={() => setShowForm(false)} onSubmitSuccess={fetchCertificates} addCertificateFn={addCertificate} />}
 
-      {/* Certificates List Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {certificates.length === 0 ? (
-          <div className="col-span-full bg-bg-card border border-border-main rounded-xl p-12 text-center text-text-muted">
-            <Award className="w-12 h-12 mx-auto mb-3 opacity-30" />
-            <p>No certificates added yet.</p>
-          </div>
-        ) : (
-          certificates.map((cert) => <CertificateCard key={cert.id} certificate={cert} onDelete={handleDelete} />)
-        )}
-      </div>
+      {/* Content Area & States */}
+      {loading ? (
+        <div className="flex items-center justify-center py-16 text-text-muted gap-2">
+          <Loader2 className="w-5 h-5 animate-spin text-primary" />
+          <span>Loading certificates...</span>
+        </div>
+      ) : certificates.length === 0 ? (
+        <div className="text-center py-16 border border-dashed border-border-main rounded-xl space-y-3">
+          <Award className="w-10 h-10 text-text-muted mx-auto opacity-50" />
+          <p className="text-text-muted text-sm">No certificates added yet.</p>
+          <button onClick={() => setShowForm(true)} className="text-xs text-primary hover:underline font-medium">
+            + Add your first certificate
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {certificates.map((cert) => (
+            <CertificateCard key={cert.id} certificate={cert} onDelete={handleDelete} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

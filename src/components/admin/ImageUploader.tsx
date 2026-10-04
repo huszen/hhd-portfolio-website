@@ -48,7 +48,7 @@ export default function ImageUploader({ value, onChange, onRemove, folder = 'por
 
   return (
     <div className="space-y-2">
-      {label && <label className="block text-sm font-medium text-text-main">{label}</label>}
+      {/* {label && <label className="block text-sm font-medium text-text-main">{label}</label>} */}
 
       {value ? (
         <div className="relative w-40 h-40 rounded-xl overflow-hidden border border-border-main group bg-bg-main">

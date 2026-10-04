@@ -48,8 +48,8 @@ export default function AdminProfilePage() {
     fetchProfileData();
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setSaving(true);
     setSuccessMessage('');
 
@@ -64,23 +64,20 @@ export default function AdminProfilePage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh] text-text-muted">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-12">
-      {/* Header Bar */}
-      <div className="flex items-center justify-between">
+    <div className="space-y-6">
+      {/* Top Bar - Standardized to match Experience page */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-main pb-4">
         <div>
-          <h1 className="text-2xl font-bold text-text-main">Profile & Skills</h1>
-          <p className="text-sm text-text-muted mt-1">Manage your personal identity, bio, categorized skills, and education</p>
+          <h1 className="text-2xl font-bold text-text-main flex items-center gap-2">Profile & Skills</h1>
+          <p className="text-sm text-text-muted mt-0.5">Manage your personal identity, bio, categorized skills, and education.</p>
         </div>
-        <button onClick={handleSubmit} disabled={saving} className="flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-hover text-primary-text font-medium rounded-lg transition disabled:opacity-50 cursor-pointer">
+        <button
+          type="button"
+          onClick={() => handleSubmit()}
+          disabled={saving || loading}
+          className="flex items-center gap-2 px-4 py-2.5 bg-primary text-primary-text rounded-lg text-sm font-semibold hover:opacity-90 transition shrink-0 self-start sm:self-auto cursor-pointer disabled:opacity-50"
+        >
           {saving ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -103,16 +100,23 @@ export default function AdminProfilePage() {
         </div>
       )}
 
-      {/* Profile Form */}
-      <form onSubmit={handleSubmit} className="space-y-8">
-        <BasicInfoSection profile={profile} onChange={(updatedProfile) => setProfile(updatedProfile)} />
+      {/* Main Content Area */}
+      {loading ? (
+        <div className="flex items-center justify-center py-16 text-text-muted gap-2">
+          <Loader2 className="w-5 h-5 animate-spin text-primary" />
+          <span>Loading profile details...</span>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <BasicInfoSection profile={profile} onChange={(updatedProfile) => setProfile(updatedProfile)} />
 
-        <SkillsSection skills={profile.skills} onChange={(updatedSkills) => setProfile({ ...profile, skills: updatedSkills })} />
+          <SkillsSection skills={profile.skills} onChange={(updatedSkills) => setProfile({ ...profile, skills: updatedSkills })} />
 
-        <EducationSection education={profile.education} onChange={(updatedEducation) => setProfile({ ...profile, education: updatedEducation })} />
+          <EducationSection education={profile.education} onChange={(updatedEducation) => setProfile({ ...profile, education: updatedEducation })} />
 
-        <SocialLinksSection socialLinks={profile.socialLinks} onChange={(updatedLinks) => setProfile({ ...profile, socialLinks: updatedLinks })} />
-      </form>
+          <SocialLinksSection socialLinks={profile.socialLinks} onChange={(updatedLinks) => setProfile({ ...profile, socialLinks: updatedLinks })} />
+        </form>
+      )}
     </div>
   );
 }

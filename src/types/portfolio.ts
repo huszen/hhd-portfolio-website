@@ -23,7 +23,7 @@ export interface Profile {
   };
 }
 
-// Interface untuk Projek Portfolio
+// Interface for Portfolio Projects
 export interface Project {
   id?: string;
   title: string;
@@ -38,7 +38,7 @@ export interface Project {
   createdAt: string;
 }
 
-// Interface untuk Sertifikasi
+// Interface for Certificates
 export interface Certificate {
   id?: string;
   title: string;
@@ -47,4 +47,19 @@ export interface Certificate {
   bannerUrl: string;
   credentialUrl: string;
   createdAt: string;
+}
+
+// Interface for Experience
+export interface Experience {
+  id?: string;
+  role: string; // e.g., "Research Assistant"
+  company: string; // e.g., "Sriwijaya University"
+  location?: string; // e.g., "Palembang, Indonesia" (Optional)
+  startDate: string; // e.g., "Aug 2024"
+  endDate: string; // e.g., "Present" or "Aug 2025"
+  isCurrentRole?: boolean;
+  description: string[]; // Bullet points describing responsibilities/achievements
+  skills?: string[]; // Tech stack used (e.g., ["Python", "Llama-3", "BERTopic"])
+  order?: number; // For custom sorting
+  createdAt?: string;
 }

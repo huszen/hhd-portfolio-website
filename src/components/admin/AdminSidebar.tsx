@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { LayoutDashboard, UserCheck, FolderKanban, Award, LogOut, ExternalLink } from 'lucide-react';
+import { LayoutDashboard, UserCheck, Briefcase, FolderKanban, Award, LogOut, ExternalLink } from 'lucide-react';
 
 export default function AdminSidebar() {
   const pathname = usePathname();
@@ -20,6 +20,11 @@ export default function AdminSidebar() {
       label: 'Profile & Skills',
       href: '/admin/profile',
       icon: UserCheck,
+    },
+    {
+      label: 'Work Experiences',
+      href: '/admin/experiences',
+      icon: Briefcase,
     },
     {
       label: 'Projects & Cases',

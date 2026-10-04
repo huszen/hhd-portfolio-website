@@ -5,9 +5,11 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import HeroSection from '@/components/home/HeroSection';
 import AboutSection from '@/components/home/AboutSection';
+import ExperienceSection from '@/components/home/ExperienceSection';
 import SkillsSection from '@/components/home/SkillsSection';
 import ProjectsSection from '@/components/home/ProjectSection';
 import CertificatesSection from '@/components/home/CertificatesSection';
+
 
 // Fetch profile data from firestore
 async function getProfileData(): Promise<Profile | null> {
@@ -73,6 +75,7 @@ export default async function Homepage() {
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-12 pb-20">
         <HeroSection profile={profile} />
         <AboutSection profile={profile} />
+        <ExperienceSection/>
         <SkillsSection skills={profile?.skills} />
         <ProjectsSection projects={projects} />
         <CertificatesSection certificates={certificates} />

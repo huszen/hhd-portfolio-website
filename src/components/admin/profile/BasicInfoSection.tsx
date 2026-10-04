@@ -12,17 +12,24 @@ interface BasicInfoSectionProps {
 export default function BasicInfoSection({ profile, onChange }: BasicInfoSectionProps) {
   return (
     <section className="bg-bg-card border border-border-main rounded-xl p-6 space-y-6">
+      {/* Header */}
       <div className="flex items-center gap-2 text-lg font-semibold text-text-main border-b border-border-main pb-3">
         <User className="w-5 h-5 text-primary" />
         <h2>Basic Information</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-1">
-          <label className="block text-sm font-medium text-text-main mb-2">Profile Avatar</label>
-          <ImageUploader value={profile.avatarUrl} onChange={(url) => onChange({ ...profile, avatarUrl: url })} folder="portfolio/profile" />
+        {/* Left Column: Centered & Enlarged Avatar Upload Box */}
+        <div className="flex flex-col items-center justify-center w-full h-full pb-4">
+          {/* <label className="text-sm font-medium text-text-muted self-start md:self-center mb-2">Profile Avatar</label> */}
+
+          {/* Bigger container (w-56 h-56 / 224px) centered with mt-4 for slight downward shift */}
+          <div className="w-56 h-56 mt-4 shrink-0">
+            <ImageUploader value={profile.avatarUrl} onChange={(url) => onChange({ ...profile, avatarUrl: url })} />
+          </div>
         </div>
 
+        {/* Right Column: Text Inputs */}
         <div className="md:col-span-2 space-y-4">
           <div>
             <label className="block text-sm font-medium text-text-main mb-1">Full Name</label>

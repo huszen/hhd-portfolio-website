@@ -1,6 +1,6 @@
 'use client';
 
-import { GraduationCap, User } from 'lucide-react';
+import { GraduationCap, User, FileUser } from 'lucide-react';
 import { Profile } from '@/types/portfolio';
 
 interface AboutSectionProps {
@@ -15,6 +15,10 @@ export default function AboutSection({ profile }: AboutSectionProps) {
       <div className="max-w-4xl mx-auto space-y-12">
         {/* Section Header */}
         <div className="text-center space-y-2">
+          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full mb-1">
+            <FileUser className="w-3.5 h-3.5" />
+            <span>PROFILE</span>
+          </div>
           <h2 className="text-2xl md:text-3xl font-bold text-text-main tracking-tight">About Me</h2>
           <p className="text-sm text-text-muted">Background, personal story, and educational background</p>
         </div>

@@ -33,7 +33,7 @@ export default function MultiImageUploader({ values = [], onChange, maxFiles = 5
 
   return (
     <div className="space-y-3">
-      {label && <label className="block text-sm font-medium text-text-main">{label}</label>}
+      {/* {label && <label className="block text-sm font-medium text-text-main">{label}</label>} */}
 
       {values.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
