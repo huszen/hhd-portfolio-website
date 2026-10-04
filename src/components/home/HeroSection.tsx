@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ArrowDown, FileText, Cat, LinkIcon, Mail } from 'lucide-react';
 import { Profile } from '@/types/portfolio';
@@ -11,6 +12,25 @@ interface HeroSectionProps {
 
 // Hero section component displaying avatar, title, short intro, CTAs, and social links
 export default function HeroSection({ profile }: HeroSectionProps) {
+  const [displayedName, setDisplayedName] = useState('');
+
+  useEffect(() => {
+    if (!profile) return;
+
+    let index = 0;
+
+    const typingInterval = setInterval(() => {
+      if (index < profile.fullName.length) {
+        setDisplayedName(profile.fullName.slice(0, index + 1));
+        index++;
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, 100);
+
+    return () => clearInterval(typingInterval);
+  }, [profile]);
+
   if (!profile) return null;
 
   return (
@@ -18,7 +38,11 @@ export default function HeroSection({ profile }: HeroSectionProps) {
       {/* Left Column: Text & Content */}
       <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left space-y-8">
         <div className="space-y-4">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-text-main tracking-tight leading-tight">{profile.fullName}</h1>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-text-main tracking-tight leading-tight">
+            {displayedName}
+            <span className="animate-pulse">|</span>
+          </h1>
+
           <p className="text-xl md:text-2xl font-medium text-text-muted max-w-2xl">{profile.headline}</p>
         </div>
 
@@ -63,6 +87,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                 <Cat className="w-5 h-5" />
               </a>
             )}
+
             {profile.socialLinks.linkedin && (
               <a
                 href={profile.socialLinks.linkedin}
@@ -74,6 +99,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                 <LinkIcon className="w-5 h-5" />
               </a>
             )}
+
             {profile.socialLinks.email && (
               <a href={`mailto:${profile.socialLinks.email}`} className="p-3 rounded-xl bg-bg-card border border-border-main text-text-muted hover:text-text-main hover:border-primary/50 transition-all shadow-sm" title="Send Email">
                 <Mail className="w-5 h-5" />

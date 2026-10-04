@@ -159,7 +159,7 @@ export default function ProjectModal({ isOpen, editingProject, onClose, onSubmit
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-bg-card border border-border-main rounded-xl max-w-2xl w-full my-8 p-6 relative max-h-[90vh] overflow-y-auto shadow-2xl">
+      <div className="bg-bg-card border border-border-main rounded-xl max-w-5xl w-full my-8 p-6 relative max-h-[90vh] overflow-y-auto shadow-2xl">
         <button onClick={onClose} className="absolute top-4 right-4 text-text-muted hover:text-text-main p-1 rounded-lg cursor-pointer">
           <X className="w-5 h-5" />
         </button>
