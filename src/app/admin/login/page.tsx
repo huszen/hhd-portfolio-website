@@ -1,9 +1,9 @@
+// src/app/admin/login/page.tsx
 'use client';
 
 import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
-import { useRouter } from 'next/navigation';
+import { auth } from '@/lib/firebase-auth';
 import { Lock, Mail, AlertCircle } from 'lucide-react';
 
 export default function AdminLoginPage() {
@@ -11,22 +11,41 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault(); // Mencegah reload halaman bawaan browser
+    e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
+      // 1. Authenticate with Client Auth
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      if (userCredential.user) {
-        router.push('/admin');
+      const idToken = await userCredential.user.getIdToken();
+
+      // 2. Set Session Cookie on Backend
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      });
+
+      if (response.ok) {
+        // 3. Perform a clean hard-redirect so middleware and server components pick up the cookie seamlessly
+        window.location.href = '/admin';
+      } else {
+        let errorMessage = 'Authentication failed on server.';
+        try {
+          const data = await response.json();
+          if (data.error) errorMessage = data.error;
+        } catch {
+          // Fallback if response isn't valid JSON
+        }
+        setError(errorMessage);
+        setLoading(false);
       }
     } catch (err: any) {
       console.error('Login error detail:', err.code, err.message);
 
-      // Menampilkan pesan spesifik berdasarkan error dari Firebase
       if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
         setError('Invalid email or password. Please try again.');
       } else if (err.code === 'auth/too-many-requests') {
@@ -34,7 +53,6 @@ export default function AdminLoginPage() {
       } else {
         setError('Failed to sign in. Please check your internet connection.');
       }
-    } finally {
       setLoading(false);
     }
   };

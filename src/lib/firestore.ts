@@ -1,3 +1,5 @@
+// src/lib/firestore.ts
+
 import { db } from './firebase';
 
 import { doc, getDoc, setDoc, collection, getDocs, addDoc, deleteDoc, query, orderBy, updateDoc, where, limit } from 'firebase/firestore';

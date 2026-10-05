@@ -1,13 +1,14 @@
+// src/components/admin/AdminSidebar.tsx
+
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { LayoutDashboard, UserCheck, Briefcase, FolderKanban, Award, LogOut, ExternalLink } from 'lucide-react';
 
 export default function AdminSidebar() {
   const pathname = usePathname();
-  const router = useRouter();
   const { logout } = useAuth();
 
   const menuItems = [
@@ -39,8 +40,20 @@ export default function AdminSidebar() {
   ];
 
   const handleLogout = async () => {
-    await logout();
-    router.push('/admin/login');
+    try {
+      // 1. Clear session cookie on server
+      await fetch('/api/logout', { method: 'POST' });
+
+      // 2. Clear Firebase client auth state if implemented in context
+      if (logout) {
+        await logout();
+      }
+    } catch (error) {
+      console.error('Error signing out:', error);
+    } finally {
+      // 3. Perform hard refresh to guarantee clear cookies & middleware redirect
+      window.location.href = '/admin/login';
+    }
   };
 
   return (
